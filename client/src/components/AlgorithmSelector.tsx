@@ -15,17 +15,19 @@ export function AlgorithmSelector({
   onToggleAlgorithm,
 }: AlgorithmSelectorProps) {
   const [expandedCategories, setExpandedCategories] = useState<Set<AlgorithmCategory>>(
-    new Set(["sorting", "search"])
+    new Set<AlgorithmCategory>(["sorting", "search"])
   );
 
   const toggleCategory = (category: AlgorithmCategory) => {
-    const newExpanded = new Set(expandedCategories);
-    if (newExpanded.has(category)) {
-      newExpanded.delete(category);
-    } else {
-      newExpanded.add(category);
-    }
-    setExpandedCategories(newExpanded);
+    setExpandedCategories((prev) => {
+      const newExpanded = new Set(prev);
+      if (newExpanded.has(category)) {
+        newExpanded.delete(category);
+      } else {
+        newExpanded.add(category);
+      }
+      return newExpanded;
+    });
   };
 
   const algorithmsByCategory = Object.values(algorithmsMetadata).reduce(
